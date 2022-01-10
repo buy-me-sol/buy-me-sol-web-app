@@ -54,7 +54,7 @@
   filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.5));
 }
 
-.connect-wallet-button {
+.gradient-button {
   background: linear-gradient(to right, #00ffd1, #7000ff);
   background-size: 150% 150%;
   animation: gradient 5s ease infinite;
