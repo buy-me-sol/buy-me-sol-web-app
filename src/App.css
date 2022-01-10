@@ -1,3 +1,137 @@
 .App {
-  text-align: center;
+  height: 100vh;
+  overflow: scroll;
+}
+
+.container {
+  background: linear-gradient(135deg, #d5fff9, #f9e3ff);
+  background-size: 150% 150%;
+  animation: gradient 10s ease infinite;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header-container {
+  position: relative;
+  top: 2vh;
+  height: 8vh;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.body-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: 2vh;
+  height: 90vh;
+}
+
+.logo-text {
+  font-weight: bolder;
+  color: #66706e;
+  font-size: 15px;
+}
+
+.button {
+  height: 42.5px;
+  border: 0;
+  width: auto;
+  padding-left: 35px;
+  padding-right: 35px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  color: #3c4241;
+  opacity: 0.8;
+  font-size: 14px;
+  font-weight: lighter;
+  filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.5));
+}
+
+.connect-wallet-button {
+  background: linear-gradient(to right, #00ffd1, #7000ff);
+  background-size: 150% 150%;
+  animation: gradient 5s ease infinite;
+}
+
+input[type="text"] {
+  display: inline-block;
+  color: #66706e;
+  padding-left: 25px;
+  width: 40%;
+  height: 40px;
+  font-size: 13px;
+  font-weight: normal;
+  border: none;
+  border-radius: 30px;
+  margin: 50px auto;
+  outline: none;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.main-container {
+  margin-top: 10vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.main-text {
+  color: #66706e;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.gradient-text {
+  background: -webkit-linear-gradient(top, #00ffc3, #9c43ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.sub-text {
+  color: #66706e;
+  font-size: 13px;
+  font-weight: normal;
+}
+
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 275px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.auth-button {
+  background-color: #38f2dc;
+  transition: background-color 1s;
+  opacity: 0.8;
+}
+
+.auth-button:hover {
+  background-color: #7000ff;
+  color: white;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
