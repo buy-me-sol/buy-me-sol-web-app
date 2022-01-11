@@ -4,6 +4,8 @@ import './App.css';
 const App = () => {
   // State
   const [walletAddress, setWalletAddress] = useState(null);
+  const [exploring, setExploring] = useState(false);
+  const [inputValue, setInputValue] = useState('');
 
   // Check if Phantom wallet is connected or not
   const checkIfWalletIsConnected = async () => {
@@ -49,18 +51,44 @@ const App = () => {
     return () => window.removeEventListener('load', onLoad);
   }, []);
 
+  // Fires off as user type in input box
+  const onInputChange = (event) => {
+    const { value } = event.target;
+    setInputValue(value);
+  };
+
+  // Render Connect Wallet Button
   const renderConnectWalletButton = () => (
     <button className="button gradient-button" onClick={connectWallet}>
       Connect Wallet
     </button>
   );
 
+  // If wallet is connect, render explore creator button
   const renderExploreButton = () => (
-    <button className="button gradient-button" onClick={null}>
+    <button className="button gradient-button" onClick={renderExploreCreatorContainer}>
       Explore Creators
     </button>
   );
 
+  // Let user choose who he/she is, creator or supporter
+  const renderAuthContainer = () => (
+    <div className="auth-container">
+      <h1 className="main-text">
+        Who are you?
+      </h1>
+      <div className="button-container">
+        <button className="button auth-button">
+          Creator
+        </button>
+        <button className="button auth-button">
+          Supporter
+        </button>
+      </div>
+    </div>
+  );
+
+  // If wallet not connect, display text
   const renderIfWalletNotConnected = () => (
     <h1 className="main-text">
       Give your audience<br></br>
@@ -72,33 +100,40 @@ const App = () => {
     </h1>
   );
 
+  // Render creators list if user clicked explore creator button
+  const renderExploreCreatorContainer = () => {
+    setExploring(true);
+  }
+
   return (
     <div className="App">
       <div className="container">
         <div className="header-container">
-          <div className="logo-text">
+          <button className="logo-text" onClick={
+            () => {
+              if (exploring) {
+                renderAuthContainer();
+                setExploring(false);
+              }
+            }
+          }>
             Buy Me Sol
-          </div>
+          </button>
           {!walletAddress && renderConnectWalletButton()}
           {walletAddress && renderExploreButton()}
         </div>
         <div className="body-container">
-          <input type="text" placeholder="Search for creators"/>
+          <form
+              onSubmit={(event) => {
+                event.preventDefault();
+                console.log(inputValue);
+              }}
+          >
+            <input type="text" placeholder="Search for creators" value={inputValue} onChange={onInputChange}/>
+          </form>
           <div className="main-container">
             {!walletAddress && renderIfWalletNotConnected()}
-            <div className="auth-container">
-              <h1 className="main-text">
-                Who are you?
-              </h1>
-              <div className="button-container">
-                <button className="button auth-button">
-                  Creator
-                </button>
-                <button className="button auth-button">
-                  Supporter
-                </button>
-              </div>
-            </div>
+            {!exploring && renderAuthContainer()}
           </div>
         </div>
       </div>
