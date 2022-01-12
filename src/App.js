@@ -7,6 +7,8 @@ const App = () => {
   const [walletAddress, setWalletAddress] = useState(null);
   const [exploring, setExploring] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [creatingCreator, setCreatingCreator] = useState(false);
+  const [creatingSupporter, setCreatingSupporter] = useState(false);
 
   // Check if Phantom wallet is connected or not
   const checkIfWalletIsConnected = async () => {
@@ -79,10 +81,20 @@ const App = () => {
         Who are you?
       </h1>
       <div className="button-container">
-        <button className="button auth-button">
+        <button className="button auth-button" onClick={
+          () => {
+            if (!walletAddress) connectWallet()
+            setCreatingCreator(true)
+          }
+        }>
           Creator
         </button>
-        <button className="button auth-button">
+        <button className="button auth-button" onClick={
+          () => {
+            if (!walletAddress) connectWallet()
+            setCreatingSupporter(true)
+          }
+        }>
           Supporter
         </button>
       </div>
@@ -114,35 +126,38 @@ const App = () => {
     </div>
   );
 
+  const renderSerachCreatorInputField = () => (
+    <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          console.log(inputValue);
+        }}
+    >
+      <input type="text" placeholder="Search for creators" value={inputValue} onChange={onInputChange}/>
+    </form>
+  );
+
   return (
     <div className="App">
       <div className="container">
         <div className="header-container">
           <button className="logo-text" onClick={
             () => {
-              if (exploring) {
-                renderAuthContainer();
-                setExploring(false);
-              }
+              if (exploring) setExploring(false)
+              if (creatingCreator) setCreatingCreator(false)
+              if (creatingSupporter) setCreatingSupporter(false)
             }
           }>
             Buy Me Sol
           </button>
           {!walletAddress && renderConnectWalletButton()}
-          {walletAddress && renderExploreButton()}
+          {!creatingCreator && !creatingSupporter && walletAddress  && renderExploreButton()}
         </div>
         <div className="body-container">
-          <form
-              onSubmit={(event) => {
-                event.preventDefault();
-                console.log(inputValue);
-              }}
-          >
-            <input type="text" placeholder="Search for creators" value={inputValue} onChange={onInputChange}/>
-          </form>
+          {!creatingCreator && !creatingSupporter && renderSerachCreatorInputField()}
           <div className="main-container">
             {!walletAddress && renderIfWalletNotConnected()}
-            {!exploring && renderAuthContainer()}
+            {!exploring && !creatingCreator && !creatingSupporter && renderAuthContainer()}
             {exploring && renderExploreCreatorContainer()}
           </div>
         </div>
