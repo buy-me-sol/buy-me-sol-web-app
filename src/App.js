@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import userLogo from './assets/user.svg';
 import './App.css';
 
 const App = () => {
@@ -66,7 +67,7 @@ const App = () => {
 
   // If wallet is connect, render explore creator button
   const renderExploreButton = () => (
-    <button className="button gradient-button" onClick={renderExploreCreatorContainer}>
+    <button className="button gradient-button" onClick={() => setExploring(true)}>
       Explore Creators
     </button>
   );
@@ -101,9 +102,17 @@ const App = () => {
   );
 
   // Render creators list if user clicked explore creator button
-  const renderExploreCreatorContainer = () => {
-    setExploring(true);
-  }
+  const renderExploreCreatorContainer = () => (
+    <div className="creator-container">
+      <div className="list-item">
+        <img className="user-log" src={userLogo} alt="User"/>
+        <div className="name-container">
+          <div> Hello</div>
+          <div className="name-container username"> Hello</div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="App">
@@ -134,6 +143,7 @@ const App = () => {
           <div className="main-container">
             {!walletAddress && renderIfWalletNotConnected()}
             {!exploring && renderAuthContainer()}
+            {exploring && renderExploreCreatorContainer()}
           </div>
         </div>
       </div>
