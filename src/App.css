@@ -187,3 +187,22 @@ input[type="text"] {
     background-position: 0% 50%;
   }
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 90%;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  border-radius: 10px;
+}
