@@ -7,6 +7,8 @@ const App = () => {
   const [walletAddress, setWalletAddress] = useState(null);
   const [exploring, setExploring] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [nameInputValue, setNameInputValue] = useState('');
+  const [usernameInputValue, setUsernameInputValue] = useState('');
   const [creatingCreator, setCreatingCreator] = useState(false);
   const [creatingSupporter, setCreatingSupporter] = useState(false);
 
@@ -59,6 +61,18 @@ const App = () => {
     const { value } = event.target;
     setInputValue(value);
   };
+
+  // Fires off as user type in name box
+  const onNameChange = (event) => {
+    const { value } = event.target;
+    setNameInputValue(value);
+  }
+
+  // Fires off as user type in username box
+  const onUsernameChange = (event) => {
+    const { value } = event.target;
+    setUsernameInputValue(value);
+  }
 
   // Render Connect Wallet Button
   const renderConnectWalletButton = () => (
@@ -144,15 +158,26 @@ const App = () => {
       <div className="main-text">
         Create Your Creator Account
         <div className="form-if-title">
-          Name<br/>
-          <input className="form-if" placeholder="Enter your name" />
+          Name
+          <input className="form-if" placeholder="Enter your name" value={nameInputValue} onChange={onNameChange}/>
         </div>
         <div className="form-if-title">
-          Username<br/>
-          <input className="form-if" placeholder="Enter your username" />
+          Username
+          <form
+            onSubmit={(event) => {
+              event.preventDefault()
+              console.log(nameInputValue)
+              console.log(usernameInputValue)
+            }}
+          >
+            <input className="form-if" placeholder="Enter your username" value={usernameInputValue} onChange={onUsernameChange}/>
+          </form>
         </div>
       </div>
-      <button className="button auth-button" onClick={null}>
+      <button className="button auth-button" onClick={() => {
+        console.log(nameInputValue)
+        console.log(usernameInputValue)
+      }}>
         Submit
       </button>
     </div>
@@ -164,11 +189,20 @@ const App = () => {
       <div className="main-text">
         Create Your Creator Account
         <div className="form-if-title">
-          Name<br/>
-          <input className="form-if" placeholder="Enter your name" />
+          Name
+          <form
+            onSubmit={(event) => {
+              event.preventDefault()
+              console.log(nameInputValue)
+            }}
+          >
+            <input className="form-if" placeholder="Enter your name" value={nameInputValue} onChange={onNameChange}/>
+          </form>
         </div>
       </div>
-      <button className="button auth-button" onClick={null}>
+      <button className="button auth-button" onClick={() => {
+        console.log(nameInputValue)
+      }}>
         Submit
       </button>
     </div>
