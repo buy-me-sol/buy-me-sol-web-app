@@ -125,8 +125,9 @@ const App = () => {
       </div>
     </div>
   );
-
-  const renderSerachCreatorInputField = () => (
+  
+  // Render this if user not creating account
+  const renderSearchCreatorInputField = () => (
     <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -136,6 +137,43 @@ const App = () => {
       <input type="text" placeholder="Search for creators" value={inputValue} onChange={onInputChange}/>
     </form>
   );
+
+  // Render creator form if user wants to create account as creator
+  const renderCreatorForm = () => (
+    <div className="form-container">
+      <div className="main-text">
+        Create Your Creator Account
+        <div className="form-if-title">
+          Name<br/>
+          <input className="form-if" placeholder="Enter your name" />
+        </div>
+        <div className="form-if-title">
+          Username<br/>
+          <input className="form-if" placeholder="Enter your username" />
+        </div>
+      </div>
+      <button className="button auth-button" onClick={null}>
+        Submit
+      </button>
+    </div>
+  );
+
+  // Render supporter form if user wants to create account as supporter
+  const renderSupporterForm = () => (
+    <div className="form-container">
+      <div className="main-text">
+        Create Your Creator Account
+        <div className="form-if-title">
+          Name<br/>
+          <input className="form-if" placeholder="Enter your name" />
+        </div>
+      </div>
+      <button className="button auth-button" onClick={null}>
+        Submit
+      </button>
+    </div>
+  );
+
 
   return (
     <div className="App">
@@ -154,11 +192,13 @@ const App = () => {
           {!creatingCreator && !creatingSupporter && walletAddress  && renderExploreButton()}
         </div>
         <div className="body-container">
-          {!creatingCreator && !creatingSupporter && renderSerachCreatorInputField()}
+          {!creatingCreator && !creatingSupporter && renderSearchCreatorInputField()}
           <div className="main-container">
             {!walletAddress && renderIfWalletNotConnected()}
             {!exploring && !creatingCreator && !creatingSupporter && renderAuthContainer()}
             {exploring && renderExploreCreatorContainer()}
+            {creatingCreator && walletAddress && renderCreatorForm()}
+            {creatingSupporter && walletAddress && renderSupporterForm()}
           </div>
         </div>
       </div>
