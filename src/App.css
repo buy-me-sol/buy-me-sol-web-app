@@ -104,7 +104,7 @@ input[type="text"] {
 
 .sub-text {
   color: #66706e;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: normal;
 }
 
@@ -204,6 +204,117 @@ input[type="text"] {
   margin: 10px auto;
   outline: none;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.profile-circle {
+  display: flex;
+  flex-direction: row;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.name-supporter-conatiner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cp-name-container {
+  color: #66706e;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  min-width: 600px;
+  border-radius: 30px;
+  justify-content: space-between;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  justify-content: center;
+}
+
+.bold-text {
+  color: #66706e;
+  margin-left: 5%;
+  font-weight: 750;
+}
+
+.normal-text {
+  color: #66706e;
+  margin-left: 5%;
+  font-weight: 400;
+  width: auto;
+}
+
+.supporter-box {
+  min-height: 350px;
+  max-width: 700px;
+  background-color: white;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+}
+
+.supporter-item {
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.supporter-item:hover {
+  background: #f9e3ff;
+}
+
+.amount-message-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  max-width: 700px;
+  margin: 10px;
+  gap: 10px;
+}
+
+.message-container {
+  height: auto;
+  background-color: #d5fff9;
+  margin-left: 5%;
+  padding: 3%;
+  border: 1px solid black;
+  border-radius: 20px;
+}
+
+.buy-container {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 30px;
+  min-width: 350px;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.buy-section {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  gap: 5px;
+}
+
+.message-box {
+  margin-left: 5%;
+  width: 275px;
+  height: 30px;
+  background-color: #d5fff9;
+  border: 1px solid black;
+}
+
+.amount-box {
+  background-color: #f9e3ff;
 }
 
 @keyframes gradient {

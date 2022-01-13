@@ -11,6 +11,7 @@ const App = () => {
   const [usernameInputValue, setUsernameInputValue] = useState('');
   const [creatingCreator, setCreatingCreator] = useState(false);
   const [creatingSupporter, setCreatingSupporter] = useState(false);
+  const [viewing, setViewing] = useState(false);
 
   // Check if Phantom wallet is connected or not
   const checkIfWalletIsConnected = async () => {
@@ -83,7 +84,10 @@ const App = () => {
 
   // If wallet is connect, render explore creator button
   const renderExploreButton = () => (
-    <button className="button gradient-button" onClick={() => setExploring(true)}>
+    <button className="button gradient-button" onClick={() => {
+        setExploring(true)
+        setViewing(false)
+      }}>
       Explore Creators
     </button>
   );
@@ -130,7 +134,10 @@ const App = () => {
   // Render creators list if user clicked explore creator button
   const renderExploreCreatorContainer = () => (
     <div className="creator-container">
-      <div className="list-item">
+      <div className="list-item" onClick={() => {
+        console.log("Viewing...")
+        setViewing(true)
+      }}>
         <img className="user-log" src={userLogo} alt="User"/>
         <div className="name-container">
           <div> Hello</div>
@@ -208,6 +215,55 @@ const App = () => {
     </div>
   );
 
+  // Render buy container if supporters are viewing page
+  const renderBuyContainer = () => (
+    <div className="buy-container">
+      <div className="bold-text"> 
+      Buy Apratim Mehta some Sol
+      </div>
+      <div className="buy-section">
+        <div className="normal-text">Enter you message</div>
+        <input className="message-box" placeholder="Say something  nice.....😎"/>
+        <div className="normal-text">Enter amount</div>
+        <input className="message-box amount-box" placeholder="0"/>
+      </div>
+      <button className="button auth-button">
+        Support 0 SOL 
+      </button>
+    </div>
+  );
+
+  // Render creator page
+  const renderCreatorPage = () => (
+    <div className="main-container">
+      <div className="profile-circle">
+        <img className="user-log" src={userLogo} alt="User"/>
+      </div>
+      <div className="name-supporter-conatiner">
+        <div className="cp-name-container">
+          <div className="bold-text">Name</div>
+          <div className="normal-text">Username</div>
+        </div>
+        <div className="sub-text">Hello 🤗<br/>
+        Here’s my recent supporters 😎
+        </div>
+        <div className="supporter-box">
+          <div className="list-item supporter-item">
+            <img className="user-log" src={userLogo} alt="User"/>
+            <div className="amount-message-container">
+              <div className="normal-text">
+                0kl76283jaskdas7asadas bought 0.5 Sol
+              </div>
+              <div className="message-container">
+                I want to acknowledge everyone's extra effort.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {renderBuyContainer()}
+    </div>
+  );
 
   return (
     <div className="App">
@@ -218,6 +274,7 @@ const App = () => {
               if (exploring) setExploring(false)
               if (creatingCreator) setCreatingCreator(false)
               if (creatingSupporter) setCreatingSupporter(false)
+              if (viewing) setViewing (false)
             }
           }>
             Buy Me Sol
@@ -226,11 +283,12 @@ const App = () => {
           {!creatingCreator && !creatingSupporter && walletAddress  && renderExploreButton()}
         </div>
         <div className="body-container">
-          {!creatingCreator && !creatingSupporter && renderSearchCreatorInputField()}
+          {!viewing && !creatingCreator && !creatingSupporter && renderSearchCreatorInputField()}
+          {viewing && renderCreatorPage()}
           <div className="main-container">
             {!walletAddress && renderIfWalletNotConnected()}
             {!exploring && !creatingCreator && !creatingSupporter && renderAuthContainer()}
-            {exploring && renderExploreCreatorContainer()}
+            {!viewing && exploring && renderExploreCreatorContainer()}
             {creatingCreator && walletAddress && renderCreatorForm()}
             {creatingSupporter && walletAddress && renderSupporterForm()}
           </div>
