@@ -80,6 +80,40 @@ const App = () => {
     return provider;
   }
 
+  // Initialize solana program
+  const createBaseAccount = async () => {
+    try {
+      const provider = getProvider();
+      const program = new Program(idl, programID, provider);
+      console.log("🚀 Starting....")
+      await program.rpc.initialize({
+        accounts: {
+          baseAccount: baseAccount.publicKey,
+          user: provider.wallet.publicKey,
+          systemProgram: SystemProgram.programId,
+        },
+        signers: [baseAccount]
+      });
+      console.log("Created a new BaseAccount w/ address:", baseAccount.publicKey.toString())
+    } catch(error) {
+      console.log("Error creating BaseAccount account:", error)
+    }
+  }
+
+  const getCreatorList = async() => {
+    try {
+      const provider = getProvider();
+      const program = new Program(idl, programID, provider);
+      const account = await program.account.baseAccount.fetch(baseAccount.publicKey);
+      
+      console.log("Got the account", account)
+      setCreatorList(account.creatorList)
+    } catch (error) {
+      console.log("Error in getCreatorList : ", error)
+      setCreatorList(null)
+    }
+  }
+
   useEffect(() => {
     const onLoad = async () => {
       await checkIfWalletIsConnected();
@@ -87,6 +121,13 @@ const App = () => {
     window.addEventListener('load', onLoad);
     return () => window.removeEventListener('load', onLoad);
   }, []);
+
+  useEffect(() => {
+    if (walletAddress) {
+      console.log('Fetching creator list...');
+      getCreatorList()
+    }
+  }, [walletAddress]);
 
   // Fires off as user type in input box
   const onInputChange = (event) => {
@@ -124,31 +165,43 @@ const App = () => {
   );
 
   // Let user choose who he/she is, creator or supporter
-  const renderAuthContainer = () => (
-    <div className="auth-container">
-      <h1 className="main-text">
-        Who are you?
-      </h1>
-      <div className="button-container">
-        <button className="button auth-button" onClick={
-          () => {
-            if (!walletAddress) connectWallet()
-            setCreatingCreator(true)
-          }
-        }>
-          Creator
+  const renderAuthContainer = () => {
+    if (creatorList === null) {
+      return (
+        <button className="button auth-button" onClick={() => {
+          createBaseAccount()
+        }}>
+          Do One-Time Initialization
         </button>
-        <button className="button auth-button" onClick={
-          () => {
-            if (!walletAddress) connectWallet()
-            setCreatingSupporter(true)
-          }
-        }>
-          Supporter
-        </button>
-      </div>
-    </div>
-  );
+      )
+    } else {
+      return(
+        <div className="auth-container">
+          <h1 className="main-text">
+            Who are you?
+          </h1>
+          <div className="button-container">
+            <button className="button auth-button" onClick={
+              () => {
+                if (!walletAddress) connectWallet()
+                setCreatingCreator(true)
+              }
+            }>
+              Creator
+            </button>
+            <button className="button auth-button" onClick={
+              () => {
+                if (!walletAddress) connectWallet()
+                setCreatingSupporter(true)
+              }
+            }>
+              Supporter
+            </button>
+          </div>
+        </div>
+      )
+    }
+  }
 
   // If wallet not connect, display text
   const renderIfWalletNotConnected = () => (
@@ -179,16 +232,20 @@ const App = () => {
   );
   
   // Render this if user not creating account
-  const renderSearchCreatorInputField = () => (
-    <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          console.log(inputValue);
-        }}
-    >
-      <input type="text" placeholder="Search for creators" value={inputValue} onChange={onInputChange}/>
-    </form>
-  );
+  const renderSearchCreatorInputField = () => {
+    if (creatorList !== null) {
+      return(
+        <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              console.log(inputValue);
+            }}
+        >
+          <input type="text" placeholder="Search for creators" value={inputValue} onChange={onInputChange}/>
+        </form>
+      )
+    }
+  };
 
   // Render creator form if user wants to create account as creator
   const renderCreatorForm = () => (
