@@ -118,6 +118,38 @@ const App = () => {
     }
   }
 
+  // Call create creator account
+  const sendCreator = async () => {
+    if (usernameInputValue.length === 0) {
+      console.log("No username given!")
+      return
+    }
+    if (nameInputValue.length === 0) {
+      console.log("No name given!")
+      return
+    }
+    console.log('Name: ', nameInputValue, ' Username: ', usernameInputValue)
+    try {
+      const provider = getProvider();
+      const program = new Program(idl, programID, provider);
+
+      await program.rpc.createCreator(usernameInputValue, nameInputValue, {
+        accounts: {
+          baseAccount: baseAccount.publicKey,
+          user: provider.wallet.publicKey,
+        }
+      });
+      setUsernameInputValue('')
+      setNameInputValue('')
+
+      console.log("Successfully created creator account 🥳 ", nameInputValue, " ", usernameInputValue)
+
+      await getCreatorList()
+    } catch (error) {
+      console.log("Error creating creator account: ",error)
+    }
+  }
+
   useEffect(() => {
     const onLoad = async () => {
       await checkIfWalletIsConnected();
@@ -265,8 +297,7 @@ const App = () => {
           <form
             onSubmit={(event) => {
               event.preventDefault()
-              console.log(nameInputValue)
-              console.log(usernameInputValue)
+              sendCreator()
             }}
           >
             <input className="form-if" placeholder="Enter your username" value={usernameInputValue} onChange={onUsernameChange}/>
@@ -274,8 +305,7 @@ const App = () => {
         </div>
       </div>
       <button className="button auth-button" onClick={() => {
-        console.log(nameInputValue)
-        console.log(usernameInputValue)
+        sendCreator()
       }}>
         Submit
       </button>
