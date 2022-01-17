@@ -128,6 +128,17 @@ const App = () => {
       console.log("No name given!")
       return
     }
+    const usernameFromList = creatorList.map((item) => {
+      if (usernameInputValue === item.username.toString()) {
+        return item.username.toString()
+      }
+      return item.username.toString()
+    })
+    if (usernameInputValue.toString() === usernameFromList.toString()) {
+      alert("Username already taken 🤕")
+      return
+    }
+
     console.log('Name: ', nameInputValue, ' Username: ', usernameInputValue)
     try {
       const provider = getProvider();
