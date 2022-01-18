@@ -35,6 +35,7 @@ const App = () => {
   const [creatingCreator, setCreatingCreator] = useState(false);
   const [creatingSupporter, setCreatingSupporter] = useState(false);
   const [viewing, setViewing] = useState(false);
+  const [creatorIndex, setCreatorIndex] = useState(0);
 
   // States retrieved from solana program
   const [creatorList, setCreatorList] = useState([]);
@@ -265,16 +266,19 @@ const App = () => {
   // Render creators list if user clicked explore creator button
   const renderExploreCreatorContainer = () => (
     <div className="creator-container">
-      <div className="list-item" onClick={() => {
-        console.log("Viewing...")
-        setViewing(true)
-      }}>
-        <img className="user-log" src={userLogo} alt="User"/>
-        <div className="name-container">
-          <div> Hello</div>
-          <div className="name-container username"> Hello</div>
+      {creatorList.map((item, index) => (
+        <div className="list-item" key={index} onClick={() => {
+          console.log("Viewing...")
+          setViewing(true)
+          setCreatorIndex(index)
+        }}>
+          <img className="user-log" src={userLogo} alt="User"/>
+          <div className="name-container">
+            <div>{item.name.toString()}</div>
+            <div className="name-container username">{item.username.toString()}</div>
+          </div>
         </div>
-      </div>
+      ))}
     </div>
   );
   
@@ -352,7 +356,7 @@ const App = () => {
   const renderBuyContainer = () => (
     <div className="buy-container">
       <div className="bold-text"> 
-      Buy Apratim Mehta some Sol
+      Buy {creatorList[creatorIndex].name.toString()} some Sol
       </div>
       <div className="buy-section">
         <div className="normal-text">Enter you message</div>
@@ -374,8 +378,8 @@ const App = () => {
       </div>
       <div className="name-supporter-conatiner">
         <div className="cp-name-container">
-          <div className="bold-text">Name</div>
-          <div className="normal-text">Username</div>
+          <div className="bold-text">{creatorList[creatorIndex].name.toString()}</div>
+          <div className="normal-text">{creatorList[creatorIndex].username.toString()}</div>
         </div>
         <div className="sub-text">Hello 🤗<br/>
         Here’s my recent supporters 😎
