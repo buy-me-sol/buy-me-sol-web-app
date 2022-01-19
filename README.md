@@ -1,70 +1,38 @@
-# Getting Started with Create React App
+# Buy Me Sol
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+" A decentralized clone of buy me a coffee for supporting your favorite creator. Gift as much Solana as you want and say something nice. 😊. "
 
-## Available Scripts
+## About The Project
 
-In the project directory, you can run:
+A decentralized clone of buy me a coffee for supporting creators. Here people gift Solana to their favorite creator.
 
-### `npm start`
+You can give your audience a way to say thanks, you just need to create a creator account by providing your name and username, and then you can ask your audience to support you.
+You don't need to provide your wallet address to get support, just share your buy me sol username with them, and that's the only thing they need to support you.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+And if you are here to support, simply search the creator you want to support by username.
+You can also create a supporter account and if you do so we will display your name instead of wallet address when you support your fav creator.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Usage Guidelines
+Make you you have **Phantom** extension installed on your browser.
 
-### `npm test`
+If you are a creator, create a creator account by providing your name and username, and then you can ask your audience to support you.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+And if you are a supporter, simply search the creator you want to support by username.
 
-### `npm run build`
+## Built With
+* [React](https://reactjs.org/)
+* [Rust](https://www.rust-lang.org/)
+* [Solana](https://docs.solana.com/)
+* [Anchor](https://project-serum.github.io/anchor/getting-started/introduction.html)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Screenshots
+![image](https://user-images.githubusercontent.com/50441829/150160435-70123ec4-30c5-4550-8d64-a6128db2c4ca.png)
+![image](https://user-images.githubusercontent.com/50441829/150168822-ad23223a-a3bb-4b95-96df-52bd3084d757.png)
+![image](https://user-images.githubusercontent.com/50441829/150168958-47a6513d-dfaa-4381-9089-faf746d8c17f.png)
+![image](https://user-images.githubusercontent.com/50441829/150169061-8a408d2d-405e-4060-9ffb-90cc2ab190fc.png)
+![image](https://user-images.githubusercontent.com/50441829/150169293-272584cd-d210-4e4b-a84c-ca600a824669.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## License
+Distributed under the MIT License. See LICENSE.txt for more information.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Deployment
