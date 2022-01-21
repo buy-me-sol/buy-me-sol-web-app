@@ -162,6 +162,31 @@ const App = () => {
     }
   }
 
+  // Search creator using search bar
+  const searchCreator = () => {
+    if (!walletAddress) {
+      connectWallet()
+      return
+    }
+    if (!creatorList) return
+
+    setInputValue('')
+
+    const stringifiedCreatorList = JSON.stringify(creatorList)
+
+    if(!stringifiedCreatorList.includes(inputValue)) {
+      alert("Username not found ☹️")
+      return
+    }
+
+    creatorList.forEach((item, index) => {
+      if (inputValue === item.username.toString()) {
+        setViewing(true)
+        setCreatorIndex(index)
+      }
+    });
+  }
+
   useEffect(() => {
     const onLoad = async () => {
       await checkIfWalletIsConnected();
@@ -290,6 +315,7 @@ const App = () => {
             onSubmit={(event) => {
               event.preventDefault();
               console.log(inputValue);
+              searchCreator()
             }}
         >
           <input type="text" placeholder="Search for creators" value={inputValue} onChange={onInputChange}/>
@@ -392,7 +418,7 @@ const App = () => {
                 0kl76283jaskdas7asadas bought 0.5 Sol
               </div>
               <div className="message-container">
-                I want to acknowledge everyone's extra effort.
+                Nice Work
               </div>
             </div>
           </div>
