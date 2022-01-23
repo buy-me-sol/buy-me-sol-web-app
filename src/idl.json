@@ -1,43 +1,161 @@
 {
-    "version": "0.1.0",
-    "name": "buy_me_sol_solana_program",
-    "instructions": [
-      {
-        "name": "initialize",
-        "accounts": [
+  "version": "0.1.0",
+  "name": "buy_me_sol_solana_program",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "baseAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createCreator",
+      "accounts": [
+        {
+          "name": "baseAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "username",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "createSupporter",
+      "accounts": [
+        {
+          "name": "baseAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "addMessage",
+      "accounts": [
+        {
+          "name": "baseAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "creatorPubkey",
+          "type": "publicKey"
+        },
+        {
+          "name": "messageFromUser",
+          "type": "string"
+        },
+        {
+          "name": "amount",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "BaseAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
-            "name": "baseAccount",
-            "isMut": true,
-            "isSigner": true
+            "name": "totalCreators",
+            "type": "u64"
           },
           {
-            "name": "user",
-            "isMut": true,
-            "isSigner": true
+            "name": "totalSupporters",
+            "type": "u64"
           },
           {
-            "name": "systemProgram",
-            "isMut": false,
-            "isSigner": false
+            "name": "creatorList",
+            "type": {
+              "vec": {
+                "defined": "CreatorStruct"
+              }
+            }
+          },
+          {
+            "name": "supporterList",
+            "type": {
+              "vec": {
+                "defined": "SupporterStruct"
+              }
+            }
+          },
+          {
+            "name": "messages",
+            "type": {
+              "vec": {
+                "defined": "MessageStruct"
+              }
+            }
           }
-        ],
-        "args": []
-      },
-      {
-        "name": "createCreator",
-        "accounts": [
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "CreatorStruct",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
-            "name": "baseAccount",
-            "isMut": true,
-            "isSigner": false
+            "name": "userAddress",
+            "type": "publicKey"
           },
-          {
-            "name": "user",
-            "isMut": true,
-            "isSigner": true
-          }
-        ],
-        "args": [
           {
             "name": "username",
             "type": "string"
@@ -47,102 +165,50 @@
             "type": "string"
           }
         ]
-      },
-      {
-        "name": "createSupporter",
-        "accounts": [
+      }
+    },
+    {
+      "name": "SupporterStruct",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
-            "name": "baseAccount",
-            "isMut": true,
-            "isSigner": false
+            "name": "userAddress",
+            "type": "publicKey"
           },
-          {
-            "name": "user",
-            "isMut": true,
-            "isSigner": true
-          }
-        ],
-        "args": [
           {
             "name": "name",
             "type": "string"
           }
         ]
       }
-    ],
-    "accounts": [
-      {
-        "name": "BaseAccount",
-        "type": {
-          "kind": "struct",
-          "fields": [
-            {
-              "name": "totalCreators",
-              "type": "u64"
-            },
-            {
-              "name": "totalSupporters",
-              "type": "u64"
-            },
-            {
-              "name": "creatorList",
-              "type": {
-                "vec": {
-                  "defined": "CreatorStruct"
-                }
-              }
-            },
-            {
-              "name": "supporterList",
-              "type": {
-                "vec": {
-                  "defined": "SupporterStruct"
-                }
-              }
-            }
-          ]
-        }
+    },
+    {
+      "name": "MessageStruct",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "creatorAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "supporterAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "message",
+            "type": "string"
+          },
+          {
+            "name": "solAmount",
+            "type": "u16"
+          }
+        ]
       }
-    ],
-    "types": [
-      {
-        "name": "CreatorStruct",
-        "type": {
-          "kind": "struct",
-          "fields": [
-            {
-              "name": "userAddress",
-              "type": "publicKey"
-            },
-            {
-              "name": "username",
-              "type": "string"
-            },
-            {
-              "name": "name",
-              "type": "string"
-            }
-          ]
-        }
-      },
-      {
-        "name": "SupporterStruct",
-        "type": {
-          "kind": "struct",
-          "fields": [
-            {
-              "name": "userAddress",
-              "type": "publicKey"
-            },
-            {
-              "name": "name",
-              "type": "string"
-            }
-          ]
-        }
-      }
-    ],
-    "metadata": {
-      "address": "6XxwwEZhFbEfg5d8iiEXhArX15rSwRbtLanQ3EcETKXy"
     }
+  ],
+  "metadata": {
+    "address": "6XxwwEZhFbEfg5d8iiEXhArX15rSwRbtLanQ3EcETKXy"
   }
+}
