@@ -36,9 +36,12 @@ const App = () => {
   const [creatingSupporter, setCreatingSupporter] = useState(false);
   const [viewing, setViewing] = useState(false);
   const [creatorIndex, setCreatorIndex] = useState(0);
+  const [msgInputValue, setMsgInputValue] = useState('');
+  const [amountInputValue, setAmountInputValue] = useState(0);
 
   // States retrieved from solana program
   const [creatorList, setCreatorList] = useState([]);
+  const [messages, setMessages] = useState([]);
 
   // Check if Phantom wallet is connected or not
   const checkIfWalletIsConnected = async () => {
@@ -100,6 +103,7 @@ const App = () => {
       });
       console.log("Created a new BaseAccount w/ address:", baseAccount.publicKey.toString())
       await getCreatorList();
+      await getMessages();
     } catch(error) {
       console.log("Error creating BaseAccount account:", error)
     }
@@ -117,6 +121,24 @@ const App = () => {
       console.log("Error in getCreatorList : ", error)
       setCreatorList(null)
     }
+  }
+
+  // Get messages from the solana program
+  const getMessages = async() => {
+    try {
+      const provider = getProvider();
+      const program = new Program(idl, programID, provider);
+      const account = await program.account.baseAccount.fetch(baseAccount.publicKey);
+      
+      setMessages(account.messages)
+    } catch (error) {
+      console.log("Error in getting messages : ", error)
+    }
+  }
+
+  // Send message and solana to creator
+  const sendMessage = async () => {
+
   }
 
   // Call create creator account
@@ -199,8 +221,22 @@ const App = () => {
     if (walletAddress) {
       console.log('Fetching creator list...');
       getCreatorList()
+      console.log('Fetching messages...');
+      getMessages()
     }
   }, [walletAddress]);
+
+  // Fires of as user type in message field
+  const onMessageChange = (event) => {
+    const { value } = event.target;
+    setMsgInputValue(value);
+  }; 
+  
+  // Fires of as user type in amount field
+  const onAmountChange = (event) => {
+    const { value } = event.target;
+    setAmountInputValue(value);
+  }; 
 
   // Fires off as user type in input box
   const onInputChange = (event) => {
@@ -386,9 +422,18 @@ const App = () => {
       </div>
       <div className="buy-section">
         <div className="normal-text">Enter you message</div>
-        <input className="message-box" placeholder="Say something  nice.....😎"/>
+        <input className="message-box" placeholder="Say something  nice.....😎" value={msgInputValue} onChange={onMessageChange}/>
         <div className="normal-text">Enter amount</div>
-        <input className="message-box amount-box" placeholder="0"/>
+        <form
+            onSubmit={(event) => {
+                event.preventDefault()
+                // Send Message
+                console.log(msgInputValue)
+                console.log(amountInputValue)
+            }}
+          >
+          <input className="message-box amount-box" placeholder="0" value={amountInputValue} onChange={onAmountChange}/>
+        </form>
       </div>
       <button className="button auth-button">
         Support 0 SOL 
