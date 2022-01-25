@@ -435,7 +435,13 @@ const App = () => {
           <input className="message-box amount-box" placeholder="0" value={amountInputValue} onChange={onAmountChange}/>
         </form>
       </div>
-      <button className="button auth-button">
+      <button className="button auth-button" onClick={
+        () => {
+          // Send Message
+          console.log(msgInputValue)
+          console.log(amountInputValue)
+        }
+      }>
         Support 0 SOL 
       </button>
     </div>
@@ -469,7 +475,7 @@ const App = () => {
           </div>
         </div>
       </div>
-      {renderBuyContainer()}
+      {(creatorList[creatorIndex].userAddress.toString() !== walletAddress) && renderBuyContainer()}
     </div>
   );
 
