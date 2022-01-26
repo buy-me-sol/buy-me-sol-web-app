@@ -25,13 +25,6 @@ And if you are a supporter, simply search the creator you want to support by use
 * [Solana](https://docs.solana.com/)
 * [Anchor](https://project-serum.github.io/anchor/getting-started/introduction.html)
 
-## Screenshots
-![image](https://user-images.githubusercontent.com/50441829/150160435-70123ec4-30c5-4550-8d64-a6128db2c4ca.png)
-![image](https://user-images.githubusercontent.com/50441829/150168822-ad23223a-a3bb-4b95-96df-52bd3084d757.png)
-![image](https://user-images.githubusercontent.com/50441829/150168958-47a6513d-dfaa-4381-9089-faf746d8c17f.png)
-![image](https://user-images.githubusercontent.com/50441829/150169061-8a408d2d-405e-4060-9ffb-90cc2ab190fc.png)
-![image](https://user-images.githubusercontent.com/50441829/150169293-272584cd-d210-4e4b-a84c-ca600a824669.png)
-
 ## License
 Distributed under the MIT License. See LICENSE.txt for more information.
 
