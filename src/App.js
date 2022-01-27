@@ -138,7 +138,35 @@ const App = () => {
 
   // Send message and solana to creator
   const sendMessage = async () => {
+    if (amountInputValue.toString() === '0') return
+    console.log(msgInputValue)
+    console.log(amountInputValue)
 
+    console.log(creatorList[creatorIndex].userAddress)
+
+    try {
+      const provider = getProvider();
+      const program = new Program(idl, programID, provider);
+
+      console.log(provider.wallet.publicKey)
+
+      await program.rpc.addMessage(creatorList[creatorIndex].userAddress, msgInputValue, amountInputValue.toString(),{
+        accounts: {
+          baseAccount: baseAccount.publicKey,
+          user: provider.wallet.publicKey,
+          systemProgram: SystemProgram.programId,
+        }
+      });
+
+      setMsgInputValue('')
+      setAmountInputValue('')
+
+      console.log("🥳 Successfully send message to  ", creatorList[creatorIndex].userAddress)
+
+       await getMessages()
+    } catch (error) {
+      console.log("Error sending message: ",error)
+    }
   }
 
   // Call create creator account
@@ -428,18 +456,16 @@ const App = () => {
             onSubmit={(event) => {
                 event.preventDefault()
                 // Send Message
-                console.log(msgInputValue)
-                console.log(amountInputValue)
+                sendMessage()
             }}
           >
-          <input className="message-box amount-box" placeholder="0" value={amountInputValue} onChange={onAmountChange}/>
+          <input className="message-box amount-box" placeholder="0" pattern="[0-9]{1,5}" value={amountInputValue} onChange={onAmountChange}/>
         </form>
       </div>
       <button className="button auth-button" onClick={
         () => {
           // Send Message
-          console.log(msgInputValue)
-          console.log(amountInputValue)
+          sendMessage()
         }
       }>
         Support 0 SOL 
