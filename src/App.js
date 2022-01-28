@@ -488,17 +488,21 @@ const App = () => {
         Here’s my recent supporters 😎
         </div>
         <div className="supporter-box">
-          <div className="list-item supporter-item">
-            <img className="user-log" src={userLogo} alt="User"/>
-            <div className="amount-message-container">
-              <div className="normal-text">
-                0kl76283jaskdas7asadas bought 0.5 Sol
+          {messages.map((item, index) => (
+            (creatorList[creatorIndex].userAddress.toString() === item.creatorAddress.toString()) && (
+              <div className="list-item supporter-item" key={index}>
+                <img className="user-log" src={userLogo} alt="User"/>
+                <div className="amount-message-container">
+                  <div className="normal-text">
+                    {item.supporterAddress.toString()} bought {item.solAmount.toString()} Sol
+                  </div>
+                  <div className="message-container">
+                    {item.message.toString()}
+                  </div>
+                </div>
               </div>
-              <div className="message-container">
-                Nice Work
-              </div>
-            </div>
-          </div>
+            )
+          ))}
         </div>
       </div>
       {(creatorList[creatorIndex].userAddress.toString() !== walletAddress) && renderBuyContainer()}
