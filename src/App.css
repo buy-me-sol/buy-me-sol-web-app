@@ -145,7 +145,7 @@ input[type="text"] {
 .list-item {
   display: flex;
   flex-direction: row;
-  min-height: 75px;
+  min-height: 100px;
   width: 90%;
   margin-top: 2%;
   border-radius: 40px;
@@ -251,7 +251,7 @@ input[type="text"] {
 }
 
 .supporter-box {
-  min-height: 350px;
+  height: 350px;
   max-width: 700px;
   background-color: white;
   border-radius: 30px;
