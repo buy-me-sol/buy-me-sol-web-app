@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import userLogo from './assets/user.svg';
 import './App.css';
 import idl from './idl.json';
-import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
+import { Transaction, Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
 import { Program, Provider, web3 } from '@project-serum/anchor';
 import kp from './keypair.json'
 
 // SystemProgram is a reference to the Solana runtime!
-const { SystemProgram, Keypair } = web3;
+const { SystemProgram } = web3;
 
 // Create a keypair for the account that will hold the GIF data.
 const arr = Object.values(kp._keypair.secretKey)
@@ -142,14 +142,31 @@ const App = () => {
     console.log(msgInputValue)
     console.log(amountInputValue)
 
-    console.log(creatorList[creatorIndex].userAddress)
-
     try {
+      const connection = new Connection(network, opts.preflightCommitment);
       const provider = getProvider();
       const program = new Program(idl, programID, provider);
 
-      console.log(provider.wallet.publicKey)
+      // Send Sol
+      const transaction = new Transaction().add(
+        SystemProgram.transfer({
+          fromPubkey: provider.wallet.publicKey,
+          toPubkey: creatorList[creatorIndex].userAddress,
+          lamports: 1000000000 * amountInputValue,
+        })
+      );
 
+      transaction.feePayer = provider.wallet.publicKey
+      console.log("Getting recent blockhash")
+      transaction.recentBlockhash = (await connection.getRecentBlockhash()).blockhash
+
+      const { signature } = await window.solana.signAndSendTransaction(transaction);
+      const result = await connection.confirmTransaction(signature);
+
+      console.log("Transfered 🤗. Signature :", signature)
+      console.log("Result :", result)
+      
+      // Add message
       await program.rpc.addMessage(creatorList[creatorIndex].userAddress, msgInputValue, amountInputValue.toString(),{
         accounts: {
           baseAccount: baseAccount.publicKey,
@@ -252,7 +269,7 @@ const App = () => {
       console.log('Fetching messages...');
       getMessages()
     }
-  }, [walletAddress]);
+  },[walletAddress]);
 
   // Fires of as user type in message field
   const onMessageChange = (event) => {
@@ -468,7 +485,7 @@ const App = () => {
           sendMessage()
         }
       }>
-        Support 0 SOL 
+        Support {amountInputValue} SOL 
       </button>
     </div>
   );
