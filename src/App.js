@@ -38,10 +38,11 @@ const App = () => {
   const [creatorIndex, setCreatorIndex] = useState(0);
   const [msgInputValue, setMsgInputValue] = useState('');
   const [amountInputValue, setAmountInputValue] = useState(0);
-
+  
   // States retrieved from solana program
   const [creatorList, setCreatorList] = useState([]);
   const [messages, setMessages] = useState([]);
+  const [userIndex, setUserIndex] = useState(null);
 
   // Check if Phantom wallet is connected or not
   const checkIfWalletIsConnected = async () => {
@@ -254,6 +255,17 @@ const App = () => {
     });
   }
 
+  // If user already has creator account, render creators home page and set user index
+  const checkIfUserHasAccount = () => {
+    creatorList.forEach((item, index) => {
+      if (walletAddress === item.userAddress.toString()) {
+        setUserIndex(index)
+        setViewing(true)
+        setCreatorIndex(index)
+      }
+    });
+  }
+
   useEffect(() => {
     const onLoad = async () => {
       await checkIfWalletIsConnected();
@@ -270,6 +282,10 @@ const App = () => {
       getMessages()
     }
   },[walletAddress]);
+
+  useEffect(() => {
+    if (creatorList) checkIfUserHasAccount()
+  }, [creatorList])
 
   // Fires of as user type in message field
   const onMessageChange = (event) => {
@@ -320,6 +336,7 @@ const App = () => {
 
   // Let user choose who he/she is, creator or supporter
   const renderAuthContainer = () => {
+    if (userIndex) return
     if (creatorList === null) {
       return (
         <button className="button auth-button" onClick={() => {
@@ -532,10 +549,19 @@ const App = () => {
         <div className="header-container">
           <button className="logo-text" onClick={
             () => {
-              if (exploring) setExploring(false)
+              if (exploring) {
+                if (userIndex) {
+                  setCreatorIndex(userIndex)
+                  setViewing(true)
+                }
+                setExploring(false)
+              }
               if (creatingCreator) setCreatingCreator(false)
               if (creatingSupporter) setCreatingSupporter(false)
-              if (viewing) setViewing (false)
+              if (viewing) {
+                if (userIndex) setCreatorIndex(userIndex)
+                else setViewing (false)
+              }
             }
           }>
             Buy Me Sol
