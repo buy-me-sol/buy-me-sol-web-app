@@ -208,6 +208,15 @@ const App = () => {
       return
     }
 
+    // Restricts user from creating a creator account if he/she already has one
+    if (!creatorList) return
+    creatorList.forEach((item) => {
+      if (walletAddress === item.userAddress.toString()) {
+        alert("You can only have one creator accoun!")
+        return
+      }
+    });
+    
     console.log('Name: ', nameInputValue, ' Username: ', usernameInputValue)
     try {
       const provider = getProvider();
