@@ -41,8 +41,10 @@ const App = () => {
   
   // States retrieved from solana program
   const [creatorList, setCreatorList] = useState([]);
+  const [supporterList, setSupporterList] = useState([]);
   const [messages, setMessages] = useState([]);
   const [userIndex, setUserIndex] = useState(null);
+  const [hasSupporterAcc, setHasSuporterAcc] = useState(false);
 
   // Check if Phantom wallet is connected or not
   const checkIfWalletIsConnected = async () => {
@@ -104,6 +106,7 @@ const App = () => {
       });
       console.log("Created a new BaseAccount w/ address:", baseAccount.publicKey.toString())
       await getCreatorList();
+      await getSupporterList();
       await getMessages();
     } catch(error) {
       console.log("Error creating BaseAccount account:", error)
@@ -209,7 +212,6 @@ const App = () => {
     }
 
     // Restricts user from creating a creator account if he/she already has one
-    if (!creatorList) return
     creatorList.forEach((item) => {
       if (walletAddress === item.userAddress.toString()) {
         alert("You can only have one creator accoun!")
@@ -231,11 +233,54 @@ const App = () => {
       setUsernameInputValue('')
       setNameInputValue('')
 
-      console.log("Successfully created creator account 🥳 ", nameInputValue, " ", usernameInputValue)
+      alert("Successfully created creator account 🥳 ", nameInputValue, " ", usernameInputValue)
 
       await getCreatorList()
     } catch (error) {
       console.log("Error creating creator account: ",error)
+    }
+  }
+
+  // Retrieve supporters from solana program
+  const getSupporterList = async() => {
+    try {
+      const provider = getProvider();
+      const program = new Program(idl, programID, provider);
+      const account = await program.account.baseAccount.fetch(baseAccount.publicKey);
+      
+      console.log("Got the account", account)
+      setSupporterList(account.supporterList)
+    } catch (error) {
+      console.log("Error in getSupporterList : ", error)
+      setSupporterList(null)
+    }
+  }
+
+  // Let user create a supporter account by calling create_supporter
+  const sendSupporter = async() => {
+    if (nameInputValue.length === 0) {
+      console.log("No name given!")
+      return
+    }
+    console.log(nameInputValue)
+
+    try {
+      const provider = getProvider();
+      const program = new Program(idl, programID, provider);
+
+      await program.rpc.createSupporter(nameInputValue, {
+        accounts: {
+          baseAccount: baseAccount.publicKey,
+          user: provider.wallet.publicKey,
+        }
+      });
+      setNameInputValue('')
+
+      alert("Successfully created supporter account 🥳 ", nameInputValue)
+
+      await getSupporterList()
+    } catch (error) {
+      console.log("Error creating supporter account: ",error)
     }
   }
 
@@ -264,14 +309,18 @@ const App = () => {
     });
   }
 
-  // If user already has creator account, render creators home page and set user index
   const checkIfUserHasAccount = () => {
+    // If user already has creator account, render creators home page and set user index
     creatorList.forEach((item, index) => {
       if (walletAddress === item.userAddress.toString()) {
         setUserIndex(index)
         setViewing(true)
         setCreatorIndex(index)
       }
+    });
+    // If user has supporter account, render auth accordinly
+    supporterList.forEach((item) => {
+      if (walletAddress === item.userAddress.toString()) setHasSuporterAcc(true)
     });
   }
 
@@ -287,6 +336,8 @@ const App = () => {
     if (walletAddress) {
       console.log('Fetching creator list...');
       getCreatorList()
+      console.log('Fetching supporter list...');
+      getSupporterList()
       console.log('Fetching messages...');
       getMessages()
     }
@@ -295,6 +346,10 @@ const App = () => {
   useEffect(() => {
     if (creatorList) checkIfUserHasAccount()
   }, [creatorList])
+
+  useEffect(() => {
+    if (supporterList) checkIfUserHasAccount()
+  }, [supporterList])
 
   // Fires of as user type in message field
   const onMessageChange = (event) => {
@@ -343,6 +398,18 @@ const App = () => {
     </button>
   );
 
+  // If user don't have supporter account, render supporter button
+  const renderSupporterButton = () => (
+    <button className="button auth-button" onClick={
+      () => {
+        if (!walletAddress) connectWallet()
+        setCreatingSupporter(true)
+      }
+    }>
+      Supporter
+    </button>
+  );
+
   // Let user choose who he/she is, creator or supporter
   const renderAuthContainer = () => {
     if (userIndex) return
@@ -358,7 +425,7 @@ const App = () => {
       return(
         <div className="auth-container">
           <h1 className="main-text">
-            Who are you?
+            {!hasSupporterAcc ? 'Who are you?' : 'Switch to Creator'}
           </h1>
           <div className="button-container">
             <button className="button auth-button" onClick={
@@ -369,14 +436,7 @@ const App = () => {
             }>
               Creator
             </button>
-            <button className="button auth-button" onClick={
-              () => {
-                if (!walletAddress) connectWallet()
-                setCreatingSupporter(true)
-              }
-            }>
-              Supporter
-            </button>
+            {!hasSupporterAcc && renderSupporterButton()}
           </div>
         </div>
       )
@@ -470,7 +530,7 @@ const App = () => {
           <form
             onSubmit={(event) => {
               event.preventDefault()
-              console.log(nameInputValue)
+              sendSupporter()
             }}
           >
             <input className="form-if" placeholder="Enter your name" value={nameInputValue} onChange={onNameChange}/>
@@ -478,7 +538,7 @@ const App = () => {
         </div>
       </div>
       <button className="button auth-button" onClick={() => {
-        console.log(nameInputValue)
+        sendSupporter()
       }}>
         Submit
       </button>
