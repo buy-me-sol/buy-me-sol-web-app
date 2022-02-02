@@ -341,45 +341,15 @@ const App = () => {
       console.log('Fetching messages...');
       getMessages()
     }
-  },[walletAddress]);
+  },[walletAddress]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (creatorList) checkIfUserHasAccount()
-  }, [creatorList])
+  }, [creatorList]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (supporterList) checkIfUserHasAccount()
-  }, [supporterList])
-
-  // Fires of as user type in message field
-  const onMessageChange = (event) => {
-    const { value } = event.target;
-    setMsgInputValue(value);
-  }; 
-  
-  // Fires of as user type in amount field
-  const onAmountChange = (event) => {
-    const { value } = event.target;
-    setAmountInputValue(value);
-  }; 
-
-  // Fires off as user type in input box
-  const onInputChange = (event) => {
-    const { value } = event.target;
-    setInputValue(value);
-  };
-
-  // Fires off as user type in name box
-  const onNameChange = (event) => {
-    const { value } = event.target;
-    setNameInputValue(value);
-  }
-
-  // Fires off as user type in username box
-  const onUsernameChange = (event) => {
-    const { value } = event.target;
-    setUsernameInputValue(value);
-  }
+  }, [supporterList]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Render Connect Wallet Button
   const renderConnectWalletButton = () => (
@@ -485,7 +455,7 @@ const App = () => {
               searchCreator()
             }}
         >
-          <input type="text" placeholder="Search for creators" value={inputValue} onChange={onInputChange}/>
+          <input type="text" placeholder="Search for creators" value={inputValue} onChange={(e) => setInputValue(e.target.value)}/>
         </form>
       )
     }
@@ -498,7 +468,7 @@ const App = () => {
         Create Your Creator Account
         <div className="form-if-title">
           Name
-          <input className="form-if" placeholder="Enter your name" value={nameInputValue} onChange={onNameChange}/>
+          <input className="form-if" placeholder="Enter your name" value={nameInputValue} onChange={(e) => setNameInputValue(e.target.value)}/>
         </div>
         <div className="form-if-title">
           Username
@@ -508,7 +478,7 @@ const App = () => {
               sendCreator()
             }}
           >
-            <input className="form-if" placeholder="Enter your username" value={usernameInputValue} onChange={onUsernameChange}/>
+            <input className="form-if" placeholder="Enter your username" value={usernameInputValue} onChange={(e) => setUsernameInputValue(e.target.value)}/>
           </form>
         </div>
       </div>
@@ -533,7 +503,7 @@ const App = () => {
               sendSupporter()
             }}
           >
-            <input className="form-if" placeholder="Enter your name" value={nameInputValue} onChange={onNameChange}/>
+            <input className="form-if" placeholder="Enter your name" value={nameInputValue} onChange={(e) => setNameInputValue(e.target.value)}/>
           </form>
         </div>
       </div>
@@ -553,7 +523,7 @@ const App = () => {
       </div>
       <div className="buy-section">
         <div className="normal-text">Enter you message</div>
-        <input className="message-box" placeholder="Say something  nice.....😎" value={msgInputValue} onChange={onMessageChange}/>
+        <input className="message-box" placeholder="Say something  nice.....😎" value={msgInputValue} onChange={(e) => setMsgInputValue(e.target.value)}/>
         <div className="normal-text">Enter amount</div>
         <form
             onSubmit={(event) => {
@@ -562,7 +532,7 @@ const App = () => {
                 sendMessage()
             }}
           >
-          <input className="message-box amount-box" placeholder="0" pattern="[0-9]{1,5}" value={amountInputValue} onChange={onAmountChange}/>
+          <input className="message-box amount-box" placeholder="0" pattern="[0-9]{1,5}" value={amountInputValue} onChange={(e) => setAmountInputValue(e.target.value)}/>
         </form>
       </div>
       <button className="button auth-button" onClick={
@@ -639,7 +609,7 @@ const App = () => {
           {!creatingCreator && !creatingSupporter && walletAddress  && renderExploreButton()}
         </div>
         <div className="body-container">
-          {!viewing && !creatingCreator && !creatingSupporter && renderSearchCreatorInputField()}
+          {!viewing && !creatingCreator && !creatingSupporter && walletAddress && renderSearchCreatorInputField()}
           {viewing && renderCreatorPage()}
           <div className="main-container">
             {!walletAddress && renderIfWalletNotConnected()}
