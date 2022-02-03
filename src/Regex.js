@@ -1,0 +1,1 @@
+export const validateAmount = new RegExp('^[0-9.]+$')

@@ -5,6 +5,7 @@ import idl from './idl.json';
 import { Transaction, Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
 import { Program, Provider, web3 } from '@project-serum/anchor';
 import kp from './keypair.json'
+import { validateAmount } from './Regex';
 
 // SystemProgram is a reference to the Solana runtime!
 const { SystemProgram } = web3;
@@ -84,10 +85,9 @@ const App = () => {
 
   const getProvider = () => {
     const connection = new Connection(network, opts.preflightCommitment);
-    const provider = new Provider(
+    return new Provider(
       connection, window.solana, opts.preflightCommitment,
     );
-    return provider;
   }
 
   // Initialize solana program
@@ -142,6 +142,10 @@ const App = () => {
 
   // Send message and solana to creator
   const sendMessage = async () => {
+    if (!validateAmount.test(amountInputValue.toString())) {
+      alert("Not a valid amount 🙅")
+      return
+    }
     if (amountInputValue.toString() === '0') return
     console.log(msgInputValue)
     console.log(amountInputValue)
@@ -214,7 +218,7 @@ const App = () => {
     // Restricts user from creating a creator account if he/she already has one
     creatorList.forEach((item) => {
       if (walletAddress === item.userAddress.toString()) {
-        alert("You can only have one creator accoun!")
+        alert("You can only have one creator account!")
         return
       }
     });
@@ -532,7 +536,7 @@ const App = () => {
                 sendMessage()
             }}
           >
-          <input className="message-box amount-box" placeholder="0" pattern="[0-9]{1,5}" value={amountInputValue} onChange={(e) => setAmountInputValue(e.target.value)}/>
+          <input className="message-box amount-box" placeholder="0" value={amountInputValue} onChange={(e) => setAmountInputValue(e.target.value)}/>
         </form>
       </div>
       <button className="button auth-button" onClick={
