@@ -39,6 +39,7 @@ const App = () => {
   const [creatorIndex, setCreatorIndex] = useState(0);
   const [msgInputValue, setMsgInputValue] = useState('');
   const [amountInputValue, setAmountInputValue] = useState(0);
+  const [buySolStatus, setBuySolStatus] = useState('');
   
   // States retrieved from solana program
   const [creatorList, setCreatorList] = useState([]);
@@ -150,6 +151,8 @@ const App = () => {
     console.log(msgInputValue)
     console.log(amountInputValue)
 
+    setBuySolStatus("sendingSol")
+
     try {
       const connection = new Connection(network, opts.preflightCommitment);
       const provider = getProvider();
@@ -173,6 +176,8 @@ const App = () => {
 
       console.log("Transfered 🤗. Signature :", signature)
       console.log("Result :", result)
+
+      setBuySolStatus('sendingMsg')
       
       // Add message
       await program.rpc.addMessage(creatorList[creatorIndex].userAddress, msgInputValue, amountInputValue.toString(),{
@@ -187,9 +192,11 @@ const App = () => {
       setAmountInputValue('')
 
       console.log("🥳 Successfully send message to  ", creatorList[creatorIndex].userAddress)
+      setBuySolStatus('')
 
-       await getMessages()
+      await getMessages()
     } catch (error) {
+      setBuySolStatus('')
       console.log("Error sending message: ",error)
     }
   }
@@ -531,13 +538,14 @@ const App = () => {
         <div className="normal-text">Enter amount</div>
         <form
             onSubmit={(event) => {
-                event.preventDefault()
-                // Send Message
-                sendMessage()
+              event.preventDefault()
+              // Send Message
+              sendMessage()
             }}
           >
           <input className="message-box amount-box" placeholder="0" value={amountInputValue} onChange={(e) => setAmountInputValue(e.target.value)}/>
         </form>
+            <div className="normal-text tiny-text">You need to approve transection twice</div>
       </div>
       <button className="button auth-button" onClick={
         () => {
@@ -545,7 +553,9 @@ const App = () => {
           sendMessage()
         }
       }>
-        Support {amountInputValue} SOL 
+        {buySolStatus === "sendingSol" ? 'Sending SOL...' : ''}
+        {buySolStatus === "" ? `Support ${amountInputValue} SOL` : ''}
+        {buySolStatus === "sendingMsg" ? 'Sending Msg...' : ''}
       </button>
     </div>
   );

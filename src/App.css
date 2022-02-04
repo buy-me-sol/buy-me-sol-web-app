@@ -250,6 +250,10 @@ input[type="text"] {
   width: auto;
 }
 
+.tiny-text {
+  font-size: 12px;
+}
+
 .supporter-box {
   height: 350px;
   max-width: 700px;
