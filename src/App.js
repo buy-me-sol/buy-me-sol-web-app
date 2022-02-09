@@ -176,6 +176,7 @@ const App = () => {
 
       console.log("Transfered 🤗. Signature :", signature)
       console.log("Result :", result)
+      alert("🥳 SOL sent successfully!")
 
       setBuySolStatus('sendingMsg')
       
@@ -191,7 +192,7 @@ const App = () => {
       setMsgInputValue('')
       setAmountInputValue('')
 
-      console.log("🥳 Successfully send message to  ", creatorList[creatorIndex].userAddress)
+      alert("🥳 Message sent successfully")
       setBuySolStatus('')
 
       await getMessages()

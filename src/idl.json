@@ -202,7 +202,7 @@
           },
           {
             "name": "solAmount",
-            "type": "u16"
+            "type": "string"
           }
         ]
       }
