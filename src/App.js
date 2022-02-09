@@ -3,9 +3,10 @@ import userLogo from './assets/user.svg';
 import './App.css';
 import idl from './idl.json';
 import { Transaction, Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
-import { Program, Provider, web3 } from '@project-serum/anchor';
+import { Program, web3 } from '@project-serum/anchor';
 import kp from './keypair.json'
 import { validateAmount } from './Regex';
+import { getProvider } from './components/GetProvider';
 
 // SystemProgram is a reference to the Solana runtime!
 const { SystemProgram } = web3;
@@ -83,13 +84,6 @@ const App = () => {
       setWalletAddress(response.publicKey.toString());
     }
   };
-
-  const getProvider = () => {
-    const connection = new Connection(network, opts.preflightCommitment);
-    return new Provider(
-      connection, window.solana, opts.preflightCommitment,
-    );
-  }
 
   // Initialize solana program
   const createBaseAccount = async () => {
