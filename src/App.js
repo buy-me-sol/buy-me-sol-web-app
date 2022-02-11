@@ -330,6 +330,14 @@ const App = () => {
     });
   }
 
+  // Checks if user has created an account
+  const userExists = ( userAddress ) => {
+    const inCreator = creatorList.filter((c) => c?.userAddress?.toString() === userAddress?.toString())
+    if (inCreator.length) return inCreator[0]?.name
+    const inSupporter = supporterList.filter((s) => s?.userAddress?.toString() === userAddress?.toString())
+    if (inSupporter.length) return inSupporter[0]?.name
+  }
+
   useEffect(() => {
     const onLoad = async () => {
       await checkIfWalletIsConnected();
@@ -576,7 +584,11 @@ const App = () => {
                 <img className="user-log" src={userLogo} alt="User"/>
                 <div className="amount-message-container">
                   <div className="normal-text">
-                    {item.supporterAddress.toString()} bought {item.solAmount.toString()} Sol
+                    {userExists(item.supporterAddress) !== null ?
+                      `${userExists(item.supporterAddress)} bought ${item.solAmount.toString()} Sol`
+                      :
+                      `${item.supporterAddress.toString()} bought ${item.solAmount.toString()} Sol`
+                    }
                   </div>
                   <div className="message-container">
                     {item.message.toString()}
