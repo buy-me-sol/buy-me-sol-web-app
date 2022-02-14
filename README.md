@@ -25,7 +25,32 @@ And if you are a supporter, simply search the creator you want to support by use
 * [Solana](https://docs.solana.com/)
 * [Anchor](https://project-serum.github.io/anchor/getting-started/introduction.html)
 
+## Getting Started
+To get a local copy up and running follow these simple steps
+
+- Clone or download this repo
+```sh
+git clone https://github.com/buy-me-sol/buy-me-sol-web-app.git
+```
+- Change the current directory to the working directory
+```sh
+cd buy-me-sol-web-app
+```
+- Install the necessary dependencies
+```sh
+npm install
+```
+- Generate key pair, a file named `keypair.json`
+```sh
+node ./src/createKeyPair.js
+```
+- Run the following command to start the development environment
+```sh
+npm run start
+```
+
 ## License
 Distributed under the MIT License. See LICENSE.txt for more information.
 
 ## Deployment
+<a href="https://buy-me-sol.github.io/buy-me-sol-web-app/"><img src="https://img.shields.io/badge/-GitHub%20Pages-black?style=for-the-badge&logo=github"/></a>
