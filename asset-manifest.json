@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/buy-me-sol-web-app/static/css/main.5d8bfab0.chunk.css",
+    "main.js": "/buy-me-sol-web-app/static/js/main.8f4ad870.chunk.js",
+    "main.js.map": "/buy-me-sol-web-app/static/js/main.8f4ad870.chunk.js.map",
+    "runtime-main.js": "/buy-me-sol-web-app/static/js/runtime-main.a777ac5b.js",
+    "runtime-main.js.map": "/buy-me-sol-web-app/static/js/runtime-main.a777ac5b.js.map",
+    "static/js/2.a0009ffe.chunk.js": "/buy-me-sol-web-app/static/js/2.a0009ffe.chunk.js",
+    "static/js/2.a0009ffe.chunk.js.map": "/buy-me-sol-web-app/static/js/2.a0009ffe.chunk.js.map",
+    "static/js/3.09de8132.chunk.js": "/buy-me-sol-web-app/static/js/3.09de8132.chunk.js",
+    "static/js/3.09de8132.chunk.js.map": "/buy-me-sol-web-app/static/js/3.09de8132.chunk.js.map",
+    "index.html": "/buy-me-sol-web-app/index.html",
+    "static/css/main.5d8bfab0.chunk.css.map": "/buy-me-sol-web-app/static/css/main.5d8bfab0.chunk.css.map",
+    "static/js/2.a0009ffe.chunk.js.LICENSE.txt": "/buy-me-sol-web-app/static/js/2.a0009ffe.chunk.js.LICENSE.txt",
+    "static/media/user.bc622e13.svg": "/buy-me-sol-web-app/static/media/user.bc622e13.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a777ac5b.js",
+    "static/js/2.a0009ffe.chunk.js",
+    "static/css/main.5d8bfab0.chunk.css",
+    "static/js/main.8f4ad870.chunk.js"
+  ]
+}
