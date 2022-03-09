@@ -7,6 +7,7 @@ import { Program, web3 } from '@project-serum/anchor';
 import kp from './keypair.json'
 import { validateAmount } from './Regex';
 import { getProvider } from './components/GetProvider';
+import ExploreButton from './components/ExploreButton';
 
 // SystemProgram is a reference to the Solana runtime!
 const { SystemProgram } = web3;
@@ -338,6 +339,11 @@ const App = () => {
     if (inSupporter.length) return inSupporter[0]?.name
   }
 
+  function handleExploreClick() {
+    setExploring(true)
+    setViewing(false)
+  }
+
   useEffect(() => {
     const onLoad = async () => {
       await checkIfWalletIsConnected();
@@ -369,16 +375,6 @@ const App = () => {
   const renderConnectWalletButton = () => (
     <button className="button gradient-button" onClick={connectWallet}>
       Connect Wallet
-    </button>
-  );
-
-  // If wallet is connect, render explore creator button
-  const renderExploreButton = () => (
-    <button className="button gradient-button" onClick={() => {
-        setExploring(true)
-        setViewing(false)
-      }}>
-      Explore Creators
     </button>
   );
 
@@ -627,7 +623,7 @@ const App = () => {
             Buy Me Sol
           </button>
           {!walletAddress && renderConnectWalletButton()}
-          {!creatingCreator && !creatingSupporter && walletAddress  && renderExploreButton()}
+          {!creatingCreator && !creatingSupporter && walletAddress  && <ExploreButton onClick={handleExploreClick} />}
         </div>
         <div className="body-container">
           {!viewing && !creatingCreator && !creatingSupporter && walletAddress && renderSearchCreatorInputField()}
